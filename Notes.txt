@@ -1,0 +1,56 @@
+Logo · Services · Portfolio · Pricing · Blog · Login · Sign up
+
+Move "Login / Sign up" to the far right as CTA buttons. "Pricing" should only appear if pricing exists on this page or a dedicated page. Add "About"
+
+
+
+Hero — headline, subline, CTA pair
+
+Strong. Lead with what you do + who for. Two CTAs: "See my work" (scroll) + "Get in touch" (contact). Add a social proof line: "3 shipped products · 5 clients".
+
+
+Skills / tech stack strip
+
+A fast horizontal logo strip (Next.js, FastAPI, PostgreSQL…) right after the hero. Proves capability before they scroll to portfolio.
+
+Add
+
+Portfolio — 3 featured projects in one section
+
+One unified section. Alternating layout (image left / image right) or 3-card grid. Not three separate sections. Each card: title, 2-line description, tech tags, live + repo links.
+
+Services — what you offer + pricing anchor
+
+3 service cards: Web Dev, AI Engineering, Consulting. Each with brief description + starting price. "Full pricing →" link at bottom. This is the money section.
+
+
+About — your photo + story
+
+Photo left, 3–4 sentence bio right. Mention your background, what you're building, and your mission. This is where study/hobby context lives — not as their own sections.
+
+
+Study section (standalone)
+
+Move to /about or /blog. Clients don't hire based on what you're studying. It weakens the professional signal on the homepage.
+
+Hobby section (standalone)
+
+Weave 1 sentence into your About bio. A full section for hobbies on a client-facing homepage is a conversion killer.
+
+
+
+FAQ — 5–7 common client questions
+
+Keep it. "What's your availability?", "Do you work with startups?", "What's your process?" Handle objections before they email.
+
+
+CTA band — "ready to build something?"
+
+One bold section above the footer. Big headline + single button → contact form. Don't end on the footer.
+
+Add
+
+
+Footer — links, social icons, copyright
+
+Keep minimal. Logo left, nav links center, social icons right. No "cool text" — let the CTA band above do that job.

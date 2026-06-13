@@ -1,8 +1,8 @@
 
-export default function Home() {
+export default function Contact() {
   return (
     <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-     <h1>Hello Rahul Shakya</h1>
+     <h1>Contact Section</h1>
     </div>
   );
 }

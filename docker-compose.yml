@@ -1,171 +1,120 @@
 version: '3.9'
 
-# --- NETWORKS ---
-# Creates a private internal network called "rahul-network"
-# All containers on this network can talk to each other by name
-# e.g. the api container can reach postgres at hostname "postgres"
 networks:
   rahul-network:
     driver: bridge
 
-# --- VOLUMES ---
-# Named volumes live outside containers on your actual hard drive
-# So even if you delete and recreate containers, your data survives
 volumes:
   postgres-data:
   pgadmin-data:
 
-# --- SERVICES ---
-# Each service = one container
 services:
 
   # ─── POSTGRESQL ───────────────────────────────────────────
   postgres:
     image: postgres:16-alpine
-    # alpine = lightweight Linux version, smaller image size
-
     container_name: rahulshakya-postgres
-    # just a human-readable name for docker ps
-
     restart: unless-stopped
-    # auto-restart if it crashes, but not if you manually stop it
 
     environment:
       POSTGRES_DB: rahulshakya
-      # creates a database called "rahulshakya" on first run
-
       POSTGRES_USER: admin
-      # the superuser username
-
       POSTGRES_PASSWORD: secret
-      # the superuser password
-      # IMPORTANT: change this before going to production
+
+    ports:
+      - "5433:5432"
+      # host port 5433 → avoids clash with linkstome_db on 5432
 
     volumes:
       - postgres-data:/var/lib/postgresql/data
-      # maps the named volume to where postgres stores data inside container
-      # left side = volume name, right side = path inside container
-
-    ports:
-      - "5432:5432"
-      # format is "host_port:container_port"
-      # lets you connect from your laptop using localhost:5432
-
-    networks:
-      - rahul-network
-    # joins the shared network so other containers can reach it
 
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U admin -d rahulshakya"]
       interval: 10s
       timeout: 5s
       retries: 5
-      # Docker will check every 10s if postgres is actually ready
-      # other containers wait for this before starting
+
+    networks:
+      - rahul-network
 
   # ─── PGADMIN ──────────────────────────────────────────────
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: rahulshakya-pgadmin
-
     restart: unless-stopped
 
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@gmail.com
-      # your login email for the pgAdmin web UI
-
       PGADMIN_DEFAULT_PASSWORD: admin123
-      # your login password for the pgAdmin web UI
-
-      PGADMIN_LISTEN_PORT: 80
-      # pgAdmin listens on port 80 inside the container
 
     ports:
-      - "5050:80"
-      # access pgAdmin at http://localhost:5050 in your browser
-      # container's port 80 → your laptop's port 5050
+      - "5051:80"
+      # host port 5051 → avoids clash with linkstome_pgadmin on 5050
 
     volumes:
       - pgadmin-data:/var/lib/pgadmin
-      # saves your pgAdmin settings and server connections
 
     depends_on:
       postgres:
         condition: service_healthy
-    # waits for postgres healthcheck to pass before starting pgAdmin
 
     networks:
       - rahul-network
 
-  # ─── EXPRESS API ──────────────────────────────────────────
+  # ─── FASTAPI BACKEND ──────────────────────────────────────
   api:
     build:
-      context: ./apps/api
-      # Docker will look for a Dockerfile in this folder
-
+      context: ./backend
       dockerfile: Dockerfile
-      # the file to use as build instructions
 
     container_name: rahulshakya-api
-
     restart: unless-stopped
 
     environment:
-      NODE_ENV: development
-      PORT: 4000
       DATABASE_URL: postgresql://admin:secret@postgres:5432/rahulshakya
-      # notice "postgres" as hostname — not localhost
-      # inside Docker network, containers reach each other by service name
-
-      JWT_SECRET: change_me_in_production
-      JWT_REFRESH_SECRET: change_me_refresh
-      CORS_ORIGIN: http://localhost:3000
+      PYTHONUNBUFFERED: 1
 
     ports:
-      - "4000:4000"
+      - "8000:8000"
 
     volumes:
-      - ./apps/api:/app
-      # maps your local api folder into the container
-      # so code changes reflect immediately without rebuilding
+      - ./backend:/app
 
-      - /app/node_modules
-      # exception: don't map node_modules from host
-      # use the ones installed inside the container
+    command: >
+      uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8000
+      --reload
 
     depends_on:
       postgres:
         condition: service_healthy
-    # api won't start until postgres is ready
 
     networks:
       - rahul-network
 
-  # ─── NEXT.JS WEB ──────────────────────────────────────────
+  # ─── NEXT.JS FRONTEND ─────────────────────────────────────
   web:
     build:
-      context: ./apps/web
+      context: ./frontend
       dockerfile: Dockerfile
 
     container_name: rahulshakya-web
-
     restart: unless-stopped
 
     environment:
-      NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+      NEXT_PUBLIC_API_URL: http://localhost:8000
 
     ports:
       - "3000:3000"
 
     volumes:
-      - ./apps/web:/app
+      - ./frontend:/app
       - /app/node_modules
       - /app/.next
-      # don't map .next either — built inside container
 
     depends_on:
       - api
-    # web starts after api is up
 
     networks:
       - rahul-network

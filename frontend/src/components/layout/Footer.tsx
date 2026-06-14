@@ -10,7 +10,7 @@ import {
 
 export default function Footer() {
     return (
-        <footer className="bg-[#5A3B8C] px-6 py-20 text-white">
+        <footer className="bg-[#020202] px-6 py-20 text-white">
             <div className="mx-auto max-w-7xl">
                 {/* Card */} 
                 <div className="rounded-[40px] bg-white p-10 text-black">

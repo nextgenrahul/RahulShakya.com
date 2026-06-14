@@ -1,8 +1,17 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #030303;
+  --surface: #09090b;
+  --elevated: #111111;
+
+  --foreground: #fafafa;
+  --muted-foreground: #a1a1aa;
+
+  --border: rgba(255, 255, 255, 0.08);
+
+  --primary: #7c3aed;
+  --primary-hover: #8b5cf6;
 }
 
 @theme inline {
@@ -24,3 +33,66 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* Surface Color : #09090B    Cards
+
+Feature Blocks
+
+Service Cards
+
+Portfolio Cards */
+
+/* → Elevated
+#111111
+
+Elevated means:
+
+"This element is more important."
+
+Examples:
+
+Navbar
+
+Modal
+
+Dropdown
+
+Mobile Menu
+
+Glass Card */
+
+
+/* Primary Text
+#FAFAFA */
+
+/* Secondary Text
+#A1A1AA */
+
+/* Border
+rgba(255,255,255,0.08)
+
+Used for:
+
+Card borders
+
+Navbar border
+
+Input border */
+
+
+/* Accent Color
+#7C3AED
+
+This color should be rare.
+
+Use it only for:
+
+Buttons
+
+Links
+
+Hover Effects
+
+Icons
+
+Active Navigation */

@@ -21,7 +21,7 @@ export default function Portfolio() {
     ];
 
     return (
-        <section id="portfolio" className="bg-[#8D1223] py-32">
+        <section id="portfolio" className="bg-[#050505] py-32">
             <div className="mx-auto max-w-7xl px-6">
                 {/* Header */}
                 <div className="mb-20">

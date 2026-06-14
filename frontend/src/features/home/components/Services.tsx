@@ -31,7 +31,7 @@ export default function Services() {
   ];
 
   return (
-    <section id="services" className="bg-[#2D63D6] py-32">
+    <section id="services" className="bg-[#030303] py-32">
       <div className="mx-auto max-w-7xl px-6">
         {/* Header */}
         <div className="mb-20">
@@ -57,7 +57,7 @@ export default function Services() {
               className={`${service.color} ${service.textColor}
               rounded-[36px] p-8 transition duration-300 hover:-translate-y-2`}
             >
-              <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-black/10 text-2xl font-black">
+              <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#09090B]/10 text-2xl font-black">
                 0{services.indexOf(service) + 1}
               </div>
 

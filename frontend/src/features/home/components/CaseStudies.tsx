@@ -2,7 +2,7 @@ export default function CaseStudies() {
   return (
     <section
       id="case-studies"
-      className="bg-[#D8DDC8] py-32"
+      className="bg-[#030303] py-32"
     >
       <div className="mx-auto max-w-7xl px-6">
         <div className="grid gap-16 lg:grid-cols-2">

@@ -21,7 +21,7 @@ export default function Testimonials() {
     ];
 
     return (
-        <section id="testimonials" className="bg-[#E8E8E8] py-32">
+        <section id="testimonials" className="bg-[#050505] py-32">
             <div className="mx-auto max-w-7xl px-6">
                 {/* Header */}
                 <div className="mb-20 text-center">

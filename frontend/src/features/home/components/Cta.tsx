@@ -1,6 +1,10 @@
 export default function Cta() {
   return (
-    <section className="relative overflow-hidden bg-[#5A3B8C] py-32">
+    <section className="relative overflow-hidden linear-gradient(
+  135deg,
+  #7C3AED,
+  #5B21B6
+) py-32">
       {/* Decorative Circle */}
       <div className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-cyan-400/30 blur-3xl" />
 

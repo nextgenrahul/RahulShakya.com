@@ -3,7 +3,7 @@ Logo · Services · Portfolio · Pricing · Blog · Login · Sign up
 Move "Login / Sign up" to the far right as CTA buttons. "Pricing" should only appear if pricing exists on this page or a dedicated page. Add "About"
 
 -------------------------------------------------------------------------------------------------------------------------------------
-We use clay website Layout & Cards https://clay.global/
+We use clay website Layout & Cards https://clay.global/  and apple
 -------------------------------------------------------------------------------------------------------------------------------------
 
 Hero — use LightWhite animation animation just like Exo Ape website

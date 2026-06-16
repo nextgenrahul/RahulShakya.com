@@ -33,7 +33,7 @@ export default function Navbar() {
             <div className="w-full bg-[#f5f5f7] text-center text-[12px] text-[#1d1d1f] py-[9px] px-4 leading-tight">
                 Available for freelance projects.{" "}
                 <Link href="/contact" className="underline underline-offset-2 hover:text-[#0071e3] transition-colors">
-                    Lets talk →
+                    Lets talk → 
                 </Link>
             </div>
 
@@ -43,7 +43,7 @@ export default function Navbar() {
             sticky top-0 z-50 w-full h-14
             transition-all duration-300
             ${scrolled
-                            ? "bg-[rgba(255,255,255,0.85)] backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.08)]"
+                        ? "bg-[rgba(255,255,255,0.85)] backdrop-blur-xl shadow-[0_1px_0_rgba(0,0,0,0.08)]"
                         : "bg-[rgba(255,255,255,0.72)] backdrop-blur-xl"
                     }
         `}

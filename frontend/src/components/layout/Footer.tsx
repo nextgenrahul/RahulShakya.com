@@ -10,101 +10,58 @@ import {
 
 export default function Footer() {
     return (
-        <footer className="bg-[#020202] px-6 py-20 text-white">
-            <div className="mx-auto max-w-7xl">
-                {/* Card */} 
-                <div className="rounded-[40px] bg-white p-10 text-black">
-                    <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-5">
-                        {/* Brand */}
-                        <div className="lg:col-span-2">
-                            <h2 className="mb-4 text-3xl font-black">
-                                Rahul<span className="text-lime-500">.</span>
-                            </h2>
+        <footer className="bg-[#f5f5f7] border-t border-[#d2d2d7]/60 text-[#86868b] px-6 py-16 font-sans">
+            <div className="max-w-[1140px] mx-auto space-y-8">
 
-                            <p className="max-w-sm text-zinc-600">
-                                Full Stack Developer focused on building scalable
-                                applications, beautiful user experiences, and
-                                reliable backend systems.
-                            </p>
+                {/* Top Notes Disclaimer Rule — Apple Signature Look */}
+                <div className="text-[11px] leading-relaxed pb-8 border-b border-[#d2d2d7]/50 max-w-4xl font-normal">
+                    1. Latency metrics based on synthetic test scripts run across optimized localized testing clusters. Performance may shift slightly depending on routing distance data variations. <br />
+                    2. Production service-level targets are tracked inside active Docker containers via runtime telemetry hooks.
+                </div>
 
-                            <button className="mt-6 rounded-full bg-lime-400 px-5 py-3 font-semibold text-black">
-                                Work With Me
-                            </button>
-                        </div>
-
-                        {/* Links */}
-                        <div>
-                            <h3 className="mb-4 font-bold">Company</h3>
-
-                            <ul className="space-y-3 text-zinc-600">
-                                <li>
-                                    <Link href="/">Home</Link>
-                                </li>
-                                <li>
-                                    <Link href="#services">Services</Link>
-                                </li>
-                                <li>
-                                    <Link href="#portfolio">Portfolio</Link>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 font-bold">Resources</h3>
-
-                            <ul className="space-y-3 text-zinc-600">
-                                <li>
-                                    <Link href="/">Blog</Link>
-                                </li>
-                                <li>
-                                    <Link href="/">Case Studies</Link>
-                                </li>
-                                <li>
-                                    <Link href="/">Contact</Link>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div>
-                            <h3 className="mb-4 font-bold">Connect</h3>
-
-                            <div className="flex gap-4">
-                                <Link href="/">
-                                    <FaGithub size={20} />
-                                </Link>
-
-                                <Link href="/">
-                                    <FaLinkedin size={20} />
-                                </Link>
-
-                                <Link href="/">
-                                    <FaInstagram size={20} />
-                                </Link>
-
-                                <Link href="/">
-                                    <FaXTwitter size={20} />
-                                </Link>
-
-                                <Link href="/">
-                                    <Mail size={20} />
-                                </Link>
-                            </div>
-                        </div>
+                {/* Structural Content Map Links */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-4">
+                    <div className="space-y-3">
+                        <h5 className="text-[12px] font-semibold text-[#1d1d1f] tracking-tight">Identity Hub</h5>
+                        <ul className="space-y-2 text-xs font-normal hover:text-[#1d1d1f]">
+                            <li><a href="#about" className="hover:underline">About Rahul</a></li>
+                            <li><a href="#case-studies" className="hover:underline">Case Archives</a></li>
+                            <li><a href="#blog" className="hover:underline">Technical Writing</a></li>
+                        </ul>
+                    </div>
+                    <div className="space-y-3">
+                        <h5 className="text-[12px] font-semibold text-[#1d1d1f] tracking-tight">Capabilities</h5>
+                        <ul className="space-y-2 text-xs font-normal">
+                            <li><a href="#services" className="hover:underline">Full-Stack SaaS</a></li>
+                            <li><a href="#services" className="hover:underline">AI Embeddings / RAG</a></li>
+                            <li><a href="#services" className="hover:underline">Custom Engines</a></li>
+                        </ul>
+                    </div>
+                    <div className="space-y-3">
+                        <h5 className="text-[12px] font-semibold text-[#1d1d1f] tracking-tight">Infrastructure</h5>
+                        <ul className="space-y-2 text-xs font-normal">
+                            <li><a href="#infra" className="hover:underline">Docker Containerization</a></li>
+                            <li><a href="#infra" className="hover:underline">Nginx Proxy Layer</a></li>
+                            <li><a href="#infra" className="hover:underline">PostgreSQL Engine</a></li>
+                        </ul>
+                    </div>
+                    <div className="space-y-3">
+                        <h5 className="text-[12px] font-semibold text-[#1d1d1f] tracking-tight">Connect Channels</h5>
+                        <ul className="space-y-2 text-xs font-normal text-[#0071e3]">
+                            <li><a href="#contact" className="hover:underline">Initiate Project Brief ↗</a></li>
+                            <li><a href="https://instagram.com/rahulshakya.fintech" className="hover:underline">Instagram Profile ↗</a></li>
+                        </ul>
                     </div>
                 </div>
 
-                {/* Bottom */}
-                <div className="mt-8 flex flex-col items-center justify-between gap-4 text-sm text-white/80 md:flex-row">
-                    <p>
-                        © {new Date().getFullYear()} Rahul Shakya. All rights
-                        reserved.
-                    </p>
-
-                    <div className="flex gap-6">
-                        <Link href="/">Privacy Policy</Link>
-                        <Link href="/">Terms of Service</Link>
+                {/* Copyright Metadata Baseline Line */}
+                <div className="pt-8 border-t border-[#d2d2d7]/50 flex flex-col md:flex-row items-center justify-between gap-4 text-xs font-normal">
+                    <div>Copyright © 2026 Rahul Shakya. All architecture configurations active.</div>
+                    <div className="flex gap-4 font-mono text-[11px]">
+                        <span>RAHULSHAKYA</span>
                     </div>
                 </div>
+
             </div>
         </footer>
     );

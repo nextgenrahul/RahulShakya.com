@@ -3,6 +3,7 @@ export { default as FeatureGrid } from "./components/FeatureGrid";
 export { default as StickyShowcase } from "./components/StickyShowcase";
 export { default as SystemTeardown } from "./components/SystemTeardown";
 export { default as InfiniteMarquee } from "./components/InfiniteMarquee";
+export { default as InfrastructureSpec } from "./components/InfrastructureSpec";
 export { default as Services } from "./components/Services";
 export { default as Portfolio } from "./components/Portfolio";
 export { default as Testimonials } from "./components/Testimonials";

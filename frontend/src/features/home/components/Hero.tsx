@@ -16,7 +16,7 @@ export default function Hero() {
     ];
 
     // Apple's signature fluid animation easing curve (Spring-mimicking bezier)
-    const appleEase = [0.25, 1, 0.5, 1];
+    const appleEase = [0.25, 1, 0.5, 1] as const;
 
     const fadeUpVariants: Variants = {
         hidden: { opacity: 0, y: 30 },
@@ -30,7 +30,7 @@ export default function Hero() {
     return (
         <div className="bg-[#f5f5f7] text-[#1d1d1f] font-sans antialiased selection:bg-[#0071e3]/20">
             {/* ── PREMIUM WHITE HERO (Apple.com Main Stage) ── */}
-            <section className="relative min-h-svh flex flex-col items-center justify-center text-center px-6 pt-[140px] pb-24 bg-white overflow-hidden">
+            <section className="relative min-h-svh flex flex-col items-center justify-center text-center px-6 pt-22.5 pb-24 bg-white overflow-hidden">
 
                 {/* Subtle, ambient pure-light overhead depth overlay */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1000px] h-[400px] bg-[radial-gradient(ellipse_at_top,rgba(0,113,227,0.03)_0%,transparent_70%)] pointer-events-none" />

@@ -48,13 +48,13 @@ export default function Navbar() {
             >
                 <nav className="max-w-245 mx-auto h-full flex items-center justify-between px-4">
 
-                    {/* ── Logo ── *    /}
+                    {/* ── Logo ── */}
                     <Link
                         href="/"
                         className="text-[#1d1d1f] text-[17px] font-semibold tracking-tight hover:opacity-70 transition-opacity"
                         onClick={() => setMenuOpen(false)}
                     >
-                        RS
+                        RahulShakya.
                     </Link>
 
                     {/* ── Desktop nav links ── */}

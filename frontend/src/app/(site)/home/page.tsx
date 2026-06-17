@@ -3,12 +3,8 @@ import {
     FeatureGrid,
     StickyShowcase,
     SystemTeardown,
-    InfiniteMarquee,
-    // Services,
-    // Portfolio,
+    InfrastructureSpec,
     Testimonials,
-    // Faq,
-    // Cta,
 } from "@/features/home";
 
 export default function Home() {
@@ -18,12 +14,8 @@ export default function Home() {
             <FeatureGrid />
             <StickyShowcase />
             <SystemTeardown />
-            {/* <InfiniteMarquee /> */}
             <Testimonials />
-            {/* <Services />
-            <Portfolio />
-            <Faq />
-            <Cta /> */}
+            <InfrastructureSpec />
         </>
     );
 }

@@ -12,7 +12,7 @@ export default function SiteLayout({
 
             <main>{children}</main>
 
-            {/* <Footer /> */}
+            <Footer />
         </>
     );
 }

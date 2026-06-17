@@ -1,6 +1,8 @@
 export { default as Hero } from "./components/Hero";
 export { default as FeatureGrid } from "./components/FeatureGrid";
 export { default as StickyShowcase } from "./components/StickyShowcase";
+export { default as SystemTeardown } from "./components/SystemTeardown";
+export { default as InfiniteMarquee } from "./components/InfiniteMarquee";
 export { default as Services } from "./components/Services";
 export { default as Portfolio } from "./components/Portfolio";
 export { default as Testimonials } from "./components/Testimonials";

@@ -2,6 +2,7 @@ import {
     Hero,
     FeatureGrid,
     StickyShowcase,
+    SystemTeardown,
     Services,
     Portfolio,
     Testimonials,
@@ -15,6 +16,7 @@ export default function Home() {
             <Hero />
             <FeatureGrid />
             <StickyShowcase />
+            <SystemTeardown />
             <Services />
             <Portfolio />
             <Testimonials />

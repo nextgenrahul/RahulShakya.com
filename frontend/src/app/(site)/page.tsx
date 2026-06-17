@@ -1,21 +1,9 @@
-import {
-    Hero,
-    Services,
-    Portfolio,
-    Testimonials,
-    Faq,
-    Cta,
-} from "@/features/home";
+import Home from "./home/page";
 
-export default function HomePage() {
+export default function Site() {
     return (
         <>
-            <Hero />
-            <Services />
-            <Portfolio />
-            <Testimonials />
-            <Faq />
-            <Cta />
+            <Home />
         </>
     );
 }

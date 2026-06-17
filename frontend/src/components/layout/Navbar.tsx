@@ -29,15 +29,13 @@ export default function Navbar() {
 
     return (
         <>
-            {/* ── Announcement bar — same as Apple's top promo strip ── */}
-            <div className="w-full bg-[#f5f5f7] text-center text-[12px] text-[#1d1d1f] py-[9px] px-4 leading-tight">
+            <div className="w-full bg-[#f5f5f7] text-center text-[12px] text-[#1d1d1f] py-2.25 px-4 leading-tight">
                 Available for freelance projects.{" "}
                 <Link href="/contact" className="underline underline-offset-2 hover:text-[#0071e3] transition-colors">
                     Lets talk → 
                 </Link>
             </div>
 
-            {/* ── Main Navbar ── */}
             <header
                 className={`
             sticky top-0 z-50 w-full h-14
@@ -48,9 +46,9 @@ export default function Navbar() {
                     }
         `}
             >
-                <nav className="max-w-[980px] mx-auto h-full flex items-center justify-between px-4">
+                <nav className="max-w-245 mx-auto h-full flex items-center justify-between px-4">
 
-                    {/* ── Logo ── */}
+                    {/* ── Logo ── *    /}
                     <Link
                         href="/"
                         className="text-[#1d1d1f] text-[17px] font-semibold tracking-tight hover:opacity-70 transition-opacity"

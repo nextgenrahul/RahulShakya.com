@@ -7,7 +7,7 @@ export default function AboutHero() {
   const appleEase = [0.25, 1, 0.5, 1] as const;
 
   return (
-    <section className="py-24 px-6 max-w-[1140px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
+    <section className="py-2 px-6 max-w-285 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start">
       
       {/* LEFT COLUMN: BIG EDITORIAL FOCUS STATEMENT (7 Columns) */}
       <div className="lg:col-span-7 space-y-8">
@@ -50,7 +50,7 @@ export default function AboutHero() {
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 0.8, ease: appleEase, delay: 0.2 }}
-        className="lg:col-span-5 bg-[#f5f5f7] border border-[#d2d2d7]/50 rounded-[32px] p-8 space-y-6"
+        className="lg:col-span-5 bg-[#f5f5f7] border border-[#d2d2d7]/50 rounded-4xl p-8 space-y-6"
       >
         <div className="text-xs font-mono text-[#86868b] uppercase pb-4 border-b border-[#d2d2d7]/40">
           Core Execution Guarantees

@@ -1,5 +1,6 @@
 import AboutHero from "@/features/about/components/AboutHero";
 import AboutMilestones from "@/features/about/components/AboutMilestones";
+import AboutPrinciples from "@/features/about/components/AboutPrinciples";
 
 export const metadata = {
   title: "About Rahul Shakya | Architectural Systems Operator",
@@ -14,6 +15,8 @@ export default function AboutPage() {
       
       {/* 2. Chronological Engineering Milestones */}
       <AboutMilestones />
+
+      <AboutPrinciples />
     </main>
   );
 }

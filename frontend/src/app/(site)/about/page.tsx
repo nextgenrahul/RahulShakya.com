@@ -9,11 +9,9 @@ export const metadata = {
 
 export default function AboutPage() {
   return (
-    <main className="bg-white min-h-screen pt-24">
-      {/* 1. High-End Profile Monograph */}
+    <main className="bg-white min-h-screen pt-24 selection:bg-[#0071e3]/10 antialiased">
       <AboutHero />
       
-      {/* 2. Chronological Engineering Milestones */}
       <AboutMilestones />
 
       <AboutPrinciples />

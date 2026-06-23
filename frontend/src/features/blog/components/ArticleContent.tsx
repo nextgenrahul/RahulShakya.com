@@ -78,22 +78,22 @@ export default function ArticleContent() {
             <span>NODE_CONTROLLER // AGENT_ROUTER.TS</span>
           </div>
           <pre className="overflow-x-auto scrollbar-none text-[#42a5f5] leading-relaxed">
-{`import { createClient } from "@prisma/client";
-import { validatePayload } from "@/utils/zod";
+          {`import { createClient } from "@prisma/client";
+          import { validatePayload } from "@/utils/zod";
 
-export async function POST(req: Request) {
-  const payload = await req.json();
-  const cleanTokens = validatePayload(payload);
-  
-  // Initialize edge routing coordinates matching vector bounds
-  const embedding = await generateVectorToken(cleanTokens.text);
-  const response = await db.$queryRaw\`
-    SELECT id, document FROM "VectorStore" 
-    ORDER BY embedding <=> \${embedding}::vector LIMIT 5;
-  \`;
-  
-  return Response.json({ success: true, nodes: response });
-}`}
+          export async function POST(req: Request) {
+            const payload = await req.json();
+            const cleanTokens = validatePayload(payload);
+            
+            // Initialize edge routing coordinates matching vector bounds
+            const embedding = await generateVectorToken(cleanTokens.text);
+            const response = await db.$queryRaw\`
+              SELECT id, document FROM "VectorStore" 
+              ORDER BY embedding <=> \${embedding}::vector LIMIT 5;
+            \`;
+            
+            return Response.json({ success: true, nodes: response });
+          }`}
           </pre>
         </div>
 

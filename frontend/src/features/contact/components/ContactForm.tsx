@@ -9,8 +9,12 @@ export default function ContactForm() {
   const [activeScope, setActiveScope] = useState("");
   const appleEase = [0.25, 1, 0.5, 1] as const;
 
-  const stackTargets = ["Full-Stack App Development", "Autonomous AI Integration", "Database Architecture Optimization", "Cloud DevOps Deployment"];
-
+  const stackTargets = [
+    "Full-Stack Software Engineering",
+    "Data Intelligence & AI Engineering",
+    "Cinematic Media & Growth Motion",
+    "Database Architecture Optimization"
+  ];
   const executeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitted(true);
@@ -18,7 +22,7 @@ export default function ContactForm() {
 
   return (
     <section className="px-6 sm:px-12 max-w-[1140px] mx-auto pb-24">
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
@@ -27,7 +31,7 @@ export default function ContactForm() {
         <AnimatePresence mode="wait">
           {!submitted ? (
             <motion.form key="form" onSubmit={executeSubmit} className="space-y-10 max-w-3xl mx-auto">
-              
+
               {/* Option Matrix Row */}
               <div className="space-y-4">
                 <label className="text-[11px] font-bold text-[#86868b] uppercase tracking-wider font-mono block">1. Select Core System Focus Layer</label>
@@ -37,9 +41,8 @@ export default function ContactForm() {
                       key={target}
                       type="button"
                       onClick={() => setActiveScope(target)}
-                      className={`px-5 py-4 text-left text-sm font-semibold rounded-2xl border transition-all ${
-                        activeScope === target ? "border-[#0071e3] bg-white text-[#0071e3] shadow-2xs" : "border-[#d2d2d7]/50 bg-white/40 text-[#1d1d1f] hover:bg-white"
-                      }`}
+                      className={`px-5 py-4 text-left text-sm font-semibold rounded-2xl border transition-all ${activeScope === target ? "border-[#0071e3] bg-white text-[#0071e3] shadow-2xs" : "border-[#d2d2d7]/50 bg-white/40 text-[#1d1d1f] hover:bg-white"
+                        }`}
                     >
                       {target}
                     </button>

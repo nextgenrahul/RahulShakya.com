@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 import { FileText, ArrowRight, Activity, ShieldCheck, Award } from "lucide-react";
+import { portfolioImage } from "@/assets/images";
 
 export default function PortfolioHero() {
   const appleEase = [0.25, 1, 0.5, 1] as const;
@@ -94,7 +95,7 @@ export default function PortfolioHero() {
             
             {!imageError ? (
               <Image 
-                src="/images/rahul-profile.jpg" 
+                src={portfolioImage} 
                 alt="Rahul Shakya Profile" 
                 priority // Tells Next.js to preload this above-the-fold hero image instantly
                 fill // Dynamically occupies the 4:5 parent frame constraints cleanly

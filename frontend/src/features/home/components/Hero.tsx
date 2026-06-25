@@ -57,10 +57,8 @@ export default function Hero() {
                         variants={fadeUpVariants}
                         className="text-[clamp(42px,8vw,84px)] font-semibold tracking-tight leading-[1.05] text-[#1d1d1f]"
                     >
-                        Full-Stack Developer.
-                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#0071e3] via-[#42a5f5] to-[#0071e3] bg-[size:200%_auto] animate-[shimmer_5s_linear_infinite] font-bold">
-                            AI Systems Architect.
-                        </span>
+                        We build scalable products.                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#0071e3] via-[#42a5f5] to-[#0071e3] bg-[size:200%_auto] animate-[shimmer_5s_linear_infinite] font-bold">
+                            Engineered for performance.                        </span>
                     </motion.h1>
 
                     {/* Subheadline (Clean, punchy, single-paragraph delivery) */}

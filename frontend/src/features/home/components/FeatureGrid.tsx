@@ -8,8 +8,8 @@ export default function FeatureGrid() {
     const gridItems = [
         {
             icon: <Cpu className="w-6 h-6 text-[#0071e3]" />,
-            title: "Autonomous AI Architecture",
-            description: "Integrating production-grade localized Large Language Models (LLMs) and dense Retrieval-Augmented Generation (RAG) pipelines straight into core database processing layers.",
+            title: "Full-Stack Web Engineering",
+            description: "Our dedicated developer builds blazing fast web interfaces using Next.js 15 and React 19 server architectures optimized cleanly for edge rendering nodes.",
             size: "md:col-span-2",
             metric: "Sub-200ms Latency"
         },
@@ -29,15 +29,15 @@ export default function FeatureGrid() {
         },
         {
             icon: <Shield className="w-6 h-6 text-[#0071e3]" />,
-            title: "Hardened Vault Session Security",
-            description: "Dual-token cookie isolation architecture protecting backend endpoints against Cross-Site Scripting (XSS) and CSRF system vulnerabilities.",
+            title: "Data Analytics & AI Networks",
+            description: "Our data scientist designs high-performance analytical systems, custom database optimizations, and intelligent vector search streams using pgvector.",
             size: "md:col-span-2",
             metric: "Bank-Grade Guarding"
         },
         {
             icon: <Activity className="w-6 h-6 text-[#0071e3]" />,
-            title: "Real-time Metric Streamlining",
-            description: "Built-in telemetry tracking with distributed cluster health dashboards logging runtime telemetry natively.",
+            title: "Cinematic Media & Brand Motion",
+            description: "Our expert video editor crafts high-retention short-form assets, premium software demonstration tutorials, and visual content systems to scale user acquisition loops.",
             size: "md:col-span-3",
             metric: "Active Upstream Control"
         }

@@ -10,8 +10,8 @@ export default function StickyShowcase() {
         {
             icon: <Bot className="w-5 h-5 text-[#0071e3]" />,
             tag: "Case Study 01 // Smart Agent Systems",
-            title: "LinksToMe Autonomous Integration",
-            description: "Architected a custom digital asset routing engine. Integrated zero-latency vector embedding matching using PostgreSQL pgvector, converting raw link management profiles into searchable vector fields.",
+            title: "LinksToMe Infrastructure Router",
+            description: "A centralized multi-tenant digital asset distribution system engineered over isolated relational tables and sub-100ms processing layers.",
             impact: "+240% Engagement"
         },
         {
@@ -35,11 +35,10 @@ export default function StickyShowcase() {
                 {/* LEFT COLUMN: STICKY BRAND BLOCK */}
                 <div className="md:w-5/12 h-fit md:sticky md:top-32 space-y-6">
                     <span className="text-[12px] font-semibold tracking-wider uppercase text-[#86868b] flex items-center gap-2">
-                        <Code className="w-3.5 h-3.5 text-[#0071e3]" /> Production Proof
+                        <Code className="w-3.5 h-3.5 text-[#0071e3]" /> STUDIO DELIVERABLES
                     </span>
                     <h2 className="text-[clamp(32px,5vw,56px)] font-semibold tracking-tight text-[#1d1d1f] leading-[1.1]">
-                        Real systems. <br />
-                        Measurable impact.
+                        Proven platform rollouts.
                     </h2>
                     <p className="text-[17px] leading-relaxed text-[#86868b] font-normal max-w-sm">
                         We don&apos;t talk about theoretical concepts. These are deep architectural metrics captured straight from running deployments.

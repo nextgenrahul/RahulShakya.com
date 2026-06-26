@@ -17,19 +17,16 @@ export default function ContactHero() {
     <section className="pt-40 pb-20 px-6 sm:px-12 max-w-[1200px] mx-auto border-b border-[#d2d2d7]/40">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start">
         
-        {/* LEFT COLUMN: CRISP SOCIAL PROOF & STATUS FLAG (3 Columns) */}
         <div className="lg:col-span-3 space-y-6 pt-2">
           <div className="space-y-3">
             <div className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#86868b]">
               STUDIO_CONTACT
             </div>
-            {/* Real Project Availability Indicator */}
             <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#0071e3]/5 border border-[#0071e3]/10 rounded-full text-[11px] font-mono font-bold text-[#0071e3]">
               AVAILABLE FOR Q3 2026
             </div>
           </div>
 
-          {/* Social Proof Stats Matrix Grid */}
           <div className="pt-4 border-t border-[#f5f5f7] space-y-1">
             <div className="text-xs font-semibold text-[#1d1d1f] tracking-tight">
               Startups • SaaS • AI Products
@@ -40,7 +37,6 @@ export default function ContactHero() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: MASSIVE TYPOGRAPHIC HEADLINE & INTERACTIVE PIPELINE CARD (9 Columns) */}
         <div className="lg:col-span-9 grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
           
           {/* Main Context Engine Segment (7 Columns) */}
@@ -54,7 +50,6 @@ export default function ContactHero() {
               </p>
             </div>
 
-            {/* Clear Directive Call To Action Buttons */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
               <a
                 href="#brief-form"
@@ -73,7 +68,6 @@ export default function ContactHero() {
               </a>
             </div>
 
-            {/* Friction Reduction Trust Strip Baseline */}
             <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 pt-6 border-t border-[#f5f5f7] text-[12px] text-[#86868b] font-medium">
               <div className="flex items-center gap-2">
                 <Clock className="w-3.5 h-3.5 text-emerald-500" /> Response within 24 hours
@@ -90,7 +84,6 @@ export default function ContactHero() {
             </div>
           </div>
 
-          {/* Right Visual Floating Structural Workflow Component (5 Columns) */}
           <div className="md:col-span-5 bg-[#f5f5f7] border border-[#d2d2d7]/40 rounded-[28px] p-6 space-y-4 shadow-2xs relative overflow-hidden">
             <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-[radial-gradient(circle_at_top_right,rgba(0,113,227,0.03),transparent_70%)] pointer-events-none" />
             

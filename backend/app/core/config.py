@@ -37,7 +37,7 @@ class Settings(BaseSettings):
 
     # ── Redis ────────────────────────────────────────────────
     REDIS_URL: str = "redis://localhost:6379"
-
+ 
     class Config:
         # pydantic reads values from this file automatically
         env_file = ".env"

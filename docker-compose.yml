@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3.9"
 
 networks:
   rahul-network:
@@ -9,27 +9,30 @@ volumes:
   pgadmin-data:
 
 services:
-
-  # ─── POSTGRESQL ───────────────────────────────────────────
+  # ─────────────────────────────────────────────
+  # PostgreSQL
+  # ─────────────────────────────────────────────
   postgres:
     image: postgres:16-alpine
     container_name: rahulshakya-postgres
     restart: unless-stopped
 
+    env_file:
+      - ./backend/.env
+
     environment:
-      POSTGRES_DB: rahulshakya
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
     ports:
       - "5433:5432"
-      # host port 5433 → avoids clash with linkstome_db on 5432
 
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d rahulshakya"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -37,19 +40,23 @@ services:
     networks:
       - rahul-network
 
-  # ─── PGADMIN ──────────────────────────────────────────────
+  # ─────────────────────────────────────────────
+  # PgAdmin
+  # ─────────────────────────────────────────────
   pgadmin:
     image: dpage/pgadmin4:latest
     container_name: rahulshakya-pgadmin
     restart: unless-stopped
 
+    env_file:
+      - ./backend/.env
+
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
 
     ports:
       - "5051:80"
-      # host port 5051 → avoids clash with linkstome_pgadmin on 5050
 
     volumes:
       - pgadmin-data:/var/lib/pgadmin
@@ -61,7 +68,9 @@ services:
     networks:
       - rahul-network
 
-  # ─── FASTAPI BACKEND ──────────────────────────────────────
+  # ─────────────────────────────────────────────
+  # FastAPI
+  # ─────────────────────────────────────────────
   api:
     build:
       context: ./backend
@@ -70,9 +79,8 @@ services:
     container_name: rahulshakya-api
     restart: unless-stopped
 
-    environment:
-      DATABASE_URL: postgresql://admin:secret@postgres:5432/rahulshakya
-      PYTHONUNBUFFERED: 1
+    env_file:
+      - ./backend/.env
 
     ports:
       - "8000:8000"
@@ -93,7 +101,9 @@ services:
     networks:
       - rahul-network
 
-  # ─── NEXT.JS FRONTEND ─────────────────────────────────────
+  # ─────────────────────────────────────────────
+  # Next.js
+  # ─────────────────────────────────────────────
   web:
     build:
       context: ./frontend
@@ -118,4 +128,3 @@ services:
 
     networks:
       - rahul-network
-

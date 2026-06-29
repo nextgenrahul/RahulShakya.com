@@ -7,7 +7,7 @@ export default function BlogHero() {
   const appleEase = [0.25, 1, 0.5, 1] as const;
 
   return (
-    <section className="pt-48 pb-20 px-6 sm:px-12 max-w-[1140px] mx-auto">
+    <section className="pt-48 pb-20 px-6 sm:px-12 max-w-285 mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         <div className="lg:col-span-4">
           <motion.div

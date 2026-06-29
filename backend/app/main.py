@@ -11,6 +11,9 @@ from app.middleware.error_handler import (
     global_exception_handler,
 )
 
+from app.features.blog.router import router as blog_router
+
+
 # ── Create app ───────────────────────────────────────────────────────────────
 app = FastAPI(
     title=settings.APP_NAME,
@@ -82,6 +85,8 @@ def health():
 # from app.features.contacts.router import router as contacts_router
 # from app.features.case_studies.router import router as case_studies_router
 # from app.features.admin.router import router as admin_router
+
+app.include_router(blog_router, prefix="/api/v1/blog", tags=["blog"])
 
 # app.include_router(auth_router,         prefix="/api/v1/auth",          tags=["auth"])
 # app.include_router(projects_router,     prefix="/api/v1/projects",      tags=["projects"])

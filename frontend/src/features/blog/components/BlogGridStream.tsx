@@ -34,7 +34,7 @@ export default function BlogGridStream() {
 
   return (
     <section className="bg-[#f5f5f7] py-32 px-6 sm:px-12 border-t border-[#d2d2d7]/50">
-      <div className="max-w-[1140px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
+      <div className="max-w-285 mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
         
         {/* Left Floating Stream Anchor */}
         <div className="lg:col-span-4 h-fit lg:sticky lg:top-36">
@@ -56,7 +56,7 @@ export default function BlogGridStream() {
               <Link href={`/blog/chapter-${idx + 1}`} className="group grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-center pb-12 border-b border-[#d2d2d7]/60 block">
                 
                 {/* Visual Thumbnail Segment (4 Columns) */}
-                <div className="sm:col-span-4 aspect-[16/10] bg-white rounded-2xl border border-[#d2d2d7]/40 relative overflow-hidden bg-gradient-to-br from-[#e8e8ed] to-white">
+                <div className="sm:col-span-4 aspect-16/10 bg-white rounded-2xl border border-[#d2d2d7]/40 relative overflow-hidden bg-gradient-to-br from-[#e8e8ed] to-white">
                   <Image
                     src={post.imgSrc}
                     alt={post.title}

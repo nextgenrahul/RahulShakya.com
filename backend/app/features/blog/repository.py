@@ -1,148 +1,91 @@
-from sqlalchemy.orm import Session
-from sqlalchemy import desc, func
-from typing import Optional, List
+from typing import List, Optional, Dict, Any
 from uuid import UUID
+import asyncpg
 
-from app.features.blog.models import BlogPost, BlogTag
-
-
-# ── READ ─────────────────────────────────────────────────────────────────────
-
-def get_all_posts(
-    db: Session,
+async def get_all_posts(
+    conn: asyncpg.Connection,
     status: Optional[str] = "published",
     featured: Optional[bool] = None,
     limit: int = 10,
-    offset: int = 0,
-) -> List[BlogPost]:
-    """
-    Fetch posts for the listing page.
-    - status="published" by default → public users only see published posts
-    - status=None → admin sees all posts including drafts
-    - featured=True → fetch only the featured post for BlogFeaturedBook
-    """
-    query = db.query(BlogPost)
+    offset: int = 0
+) -> List[Dict[str, Any]]:
+    query = "SELECT * FROM blog_posts WHERE 1=1"
+    params = []
+    param_idx = 1
 
     if status:
-        query = query.filter(BlogPost.status == status)
+        query += f" AND status = ${param_idx}"
+        params.append(status)
+        param_idx += 1
 
     if featured is not None:
-        query = query.filter(BlogPost.featured == featured)
+        query += f" AND featured = ${param_idx}"
+        params.append(featured)
+        param_idx += 1
 
-    # newest first
-    query = query.order_by(desc(BlogPost.published_at))
+    query += f" ORDER BY published_at DESC NULLS LAST, created_at DESC LIMIT ${param_idx} OFFSET ${param_idx+1}"
+    params.extend([limit, offset])
 
-    return query.offset(offset).limit(limit).all()
+    records = await conn.fetch(query, *params)
+    return [dict(r) for r in records]
 
-
-def get_total_posts(
-    db: Session,
-    status: Optional[str] = "published",
-) -> int:
-    """Count total posts — used for pagination."""
-    query = db.query(func.count(BlogPost.id))
+async def get_total_posts(conn: asyncpg.Connection, status: Optional[str] = "published") -> int:
     if status:
-        query = query.filter(BlogPost.status == status)
-    return query.scalar()
+        return await conn.fetchval("SELECT COUNT(*) FROM blog_posts WHERE status = $1", status)
+    return await conn.fetchval("SELECT COUNT(*) FROM blog_posts")
 
+async def get_post_by_slug(conn: asyncpg.Connection, slug: str) -> Optional[Dict[str, Any]]:
+    record = await conn.fetchrow("SELECT * FROM blog_posts WHERE slug = $1", slug)
+    return dict(record) if record else None
 
-def get_post_by_slug(db: Session, slug: str) -> Optional[BlogPost]:
+async def get_post_by_id(conn: asyncpg.Connection, post_id: UUID) -> Optional[Dict[str, Any]]:
+    record = await conn.fetchrow("SELECT * FROM blog_posts WHERE id = $1", post_id)
+    return dict(record) if record else None
+
+async def get_tags_for_post(conn: asyncpg.Connection, post_id: UUID) -> List[Dict[str, Any]]:
+    records = await conn.fetch("SELECT id, name, slug FROM blog_tags WHERE post_id = $1", post_id)
+    return [dict(r) for r in records]
+
+async def slug_exists(conn: asyncpg.Connection, slug: str, exclude_id: Optional[UUID] = None) -> bool:
+    if exclude_id:
+        val = await conn.fetchval("SELECT id FROM blog_posts WHERE slug = $1 AND id != $2 LIMIT 1", slug, exclude_id)
+    else:
+        val = await conn.fetchval("SELECT id FROM blog_posts WHERE slug = $1 LIMIT 1", slug)
+    return val is not None
+
+async def create_post(conn: asyncpg.Connection, data: dict) -> UUID:
+    query = """
+        INSERT INTO blog_posts (
+            title, slug, content, excerpt, cover_image_url, status, 
+            volume_label, featured, read_time_mins, author_name, seo_title, seo_description, published_at
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+        RETURNING id;
     """
-    Fetch a single post by slug for the detail page.
-    e.g. /blog/autonomous-agent-architecture
-    """
-    return db.query(BlogPost).filter(BlogPost.slug == slug).first()
-
-
-def get_post_by_id(db: Session, post_id: UUID) -> Optional[BlogPost]:
-    """Fetch post by UUID — used in admin panel."""
-    return db.query(BlogPost).filter(BlogPost.id == post_id).first()
-
-
-def get_featured_post(db: Session) -> Optional[BlogPost]:
-    """
-    Returns the single featured post shown in BlogFeaturedBook.
-    If multiple posts are marked featured, returns the most recent.
-    """
-    return (
-        db.query(BlogPost)
-        .filter(BlogPost.status == "published", BlogPost.featured == True)
-        .order_by(desc(BlogPost.published_at))
-        .first()
+    return await conn.fetchval(
+        query, data["title"], data["slug"], data["content"], data.get("excerpt"), data.get("cover_image_url"),
+        data["status"], data.get("volume_label"), data["featured"], data["read_time_mins"], data["author_name"],
+        data.get("seo_title"), data.get("seo_description"), data.get("published_at")
     )
 
+async def create_tags(conn: asyncpg.Connection, post_id: UUID, tags: List[Dict[str, str]]):
+    if not tags:
+        return
+    values = [(post_id, t["name"], t["slug"]) for t in tags]
+    await conn.executemany("INSERT INTO blog_tags (post_id, name, slug) VALUES ($1, $2, $3)", values)
 
-def slug_exists(db: Session, slug: str, exclude_id: Optional[UUID] = None) -> bool:
-    """Check if a slug is already taken — prevents duplicate slugs."""
-    query = db.query(BlogPost).filter(BlogPost.slug == slug)
-    if exclude_id:
-        query = query.filter(BlogPost.id != exclude_id)
-    return query.first() is not None
+async def update_post(conn: asyncpg.Connection, post_id: UUID, data: dict):
+    set_clauses = []
+    params = []
+    for idx, (field, val) in enumerate(data.items(), start=1):
+        set_clauses.append(f"{field} = ${idx}")
+        params.append(val)
+    
+    params.append(post_id)
+    query = f"UPDATE blog_posts SET {', '.join(set_clauses)}, updated_at = CURRENT_TIMESTAMP WHERE id = ${len(params)}"
+    await conn.execute(query, *params)
 
+async def delete_tags_for_post(conn: asyncpg.Connection, post_id: UUID):
+    await conn.execute("DELETE FROM blog_tags WHERE post_id = $1", post_id)
 
-# ── CREATE ────────────────────────────────────────────────────────────────────
-
-def create_post(db: Session, data: dict) -> BlogPost:
-    """
-    Create a new blog post.
-    data dict contains all post fields.
-    Tags are handled separately after post creation.
-    """
-    # extract tags before creating post — tags go to BlogTag table
-    tags = data.pop("tags", [])
-
-    post = BlogPost(**data)
-    db.add(post)
-    db.flush()  # flush to get the post.id without committing yet
-
-    # create tag rows linked to this post
-    _create_tags(db, post.id, tags)
-
-    db.commit()
-    db.refresh(post)
-    return post
-
-
-# ── UPDATE ────────────────────────────────────────────────────────────────────
-
-def update_post(db: Session, post: BlogPost, data: dict) -> BlogPost:
-    """Update only the fields that were provided."""
-    tags = data.pop("tags", None)
-
-    for field, value in data.items():
-        if value is not None:
-            setattr(post, field, value)
-
-    # if tags were provided, replace all existing tags
-    if tags is not None:
-        db.query(BlogTag).filter(BlogTag.post_id == post.id).delete()
-        _create_tags(db, post.id, tags)
-
-    db.commit()
-    db.refresh(post)
-    return post
-
-
-# ── DELETE ────────────────────────────────────────────────────────────────────
-
-def delete_post(db: Session, post: BlogPost) -> None:
-    """
-    Delete a post and all its tags.
-    Tags are auto-deleted because of cascade="all, delete-orphan" on the relationship.
-    """
-    db.delete(post)
-    db.commit()
-
-
-# ── HELPERS ───────────────────────────────────────────────────────────────────
-
-def _create_tags(db: Session, post_id: UUID, tag_names: List[str]) -> None:
-    """Create BlogTag rows for a post from a list of tag name strings."""
-    from app.shared.utils import slugify
-    for name in tag_names:
-        tag = BlogTag(
-            post_id=post_id,
-            name=name.strip(),
-            slug=slugify(name),
-        )
-        db.add(tag)
+async def delete_post(conn: asyncpg.Connection, post_id: UUID):
+    await conn.execute("DELETE FROM blog_posts WHERE id = $1", post_id)

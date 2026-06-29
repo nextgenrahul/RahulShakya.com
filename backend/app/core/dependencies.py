@@ -1,72 +1,41 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from sqlalchemy.orm import Session
-from app.db.session import get_db
-from app.core.security import decode_access_token
+from fastapi.security import OAuth2PasswordBearer
+from asyncpg import Connection
+from jose import JWTError, jwt
 
-# HTTPBearer extracts the token from the Authorization: Bearer <token> header
-bearer_scheme = HTTPBearer()
+from app.core.config import settings
+from app.db.session import get_raw_conn  # Updated reference to raw connection yield token
 
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/admin/login")
 
-def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
-    db: Session = Depends(get_db),
+async def get_admin_user(
+    token: str = Depends(oauth2_scheme),
+    conn: Connection = Depends(get_raw_conn) # Swapped Session for asyncpg Connection
 ):
     """
-    Dependency injected into any route that requires authentication.
-
-    Usage in a router:
-        @router.get("/admin/projects")
-        def list_projects(user = Depends(get_current_user)):
-            ...
-
-    FastAPI calls this before the route handler runs.
-    If the token is invalid, it raises 401 and the route never executes.
+    Asynchronously validates incoming admin JWT tokens 
+    against the raw postgresql connection mesh.
     """
-    # decode the token — returns None if invalid or expired
-    payload = decode_access_token(credentials.credentials)
+    credentials_exception = HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Could not validate credentials",
+        headers={"WWW-Authenticate": "Bearer"},
+    )
+    try:
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
+        username: str = payload.get("sub")
+        if username is None:
+            raise credentials_exception
+    except JWTError:
+        raise credentials_exception
 
-    if payload is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired token",
-            headers={"WWW-Authenticate": "Bearer"},
-        )
-
-    # get the user id from the token payload
-    user_id: str = payload.get("sub")
-    if user_id is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token missing subject claim",
-        )
-
-    # lazy import to avoid circular imports
-    from app.features.auth.repository import get_user_by_id
-    user = get_user_by_id(db, user_id)
-
-    if user is None:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User no longer exists",
-        )
-
-    return user
-
-
-def get_admin_user(current_user=Depends(get_current_user)):
-    """
-    Stricter dependency — only allows admin role.
-    Stack on top of get_current_user.
-
-    Usage:
-        @router.delete("/admin/projects/{id}")
-        def delete_project(user = Depends(get_admin_user)):
-            ...
-    """
-    if current_user.role != "admin":
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Admin access required",
-        )
-    return current_user
+    # Execute a pure parameterized query to check if admin user exists
+    admin_user = await conn.fetchrow(
+        "SELECT id, username FROM admin_users WHERE username = $1 LIMIT 1;", 
+        username
+    )
+    
+    if admin_user is None:
+        raise credentials_exception
+        
+    return dict(admin_user)

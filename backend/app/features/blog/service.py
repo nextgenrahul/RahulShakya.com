@@ -1,147 +1,97 @@
-from sqlalchemy.orm import Session
-from datetime import datetime, timezone
-from typing import Optional
+from typing import List, Tuple, Dict, Any
 from uuid import UUID
+from datetime import datetime, timezone
+import asyncpg
 
 from app.features.blog import repository
 from app.features.blog.schemas import BlogPostCreate, BlogPostUpdate
 from app.shared.exceptions import NotFoundException, ConflictException
 from app.shared.utils import slugify
 
-
-def get_published_posts(
-    db: Session,
-    page: int = 1,
-    per_page: int = 10,
-):
-    """
-    Public endpoint — listing page.
-    Returns paginated published posts + total count for frontend pagination.
-    """
-    from app.shared.utils import paginate
-    pagination = paginate(page, per_page)
-
-    posts = repository.get_all_posts(
-        db,
-        status="published",
-        limit=pagination["limit"],
-        offset=pagination["offset"],
-    )
-    total = repository.get_total_posts(db, status="published")
-
+async def get_published_posts(conn: asyncpg.Connection, page: int = 1, per_page: int = 10) -> Tuple[List[Dict[str, Any]], int]:
+    offset = (page - 1) * per_page
+    posts = await repository.get_all_posts(conn, status="published", limit=per_page, offset=offset)
+    total = await repository.get_total_posts(conn, status="published")
+    
+    for post in posts:
+        post["tags"] = await repository.get_tags_for_post(conn, post["id"])
     return posts, total
 
+async def get_featured_post(conn: asyncpg.Connection) -> Dict[str, Any]:
+    posts = await repository.get_all_posts(conn, status="published", featured=True, limit=1, offset=0)
+    if not posts:
+        raise NotFoundException("Featured blog post asset container empty.")
+    
+    featured_post = posts[0]
+    featured_post["tags"] = await repository.get_tags_for_post(conn, featured_post["id"])
+    return featured_post
 
-def get_featured_post(db: Session):
-    """
-    Returns the featured post for BlogFeaturedBook component.
-    Raises 404 if no featured post is published yet.
-    """
-    post = repository.get_featured_post(db)
-    if not post:
-        raise NotFoundException("Featured post")
+async def get_post_by_slug(conn: asyncpg.Connection, slug: str) -> Dict[str, Any]:
+    post = await repository.get_post_by_slug(conn, slug)
+    if not post or post["status"] != "published":
+        raise NotFoundException("Requested publication chapter missing.")
+    post["tags"] = await repository.get_tags_for_post(conn, post["id"])
     return post
 
-
-def get_post_by_slug(db: Session, slug: str):
-    """
-    Single post detail page — /blog/{slug}
-    Only returns published posts to public users.
-    """
-    post = repository.get_post_by_slug(db, slug)
-    if not post or post.status != "published":
-        raise NotFoundException("Blog post")
-    return post
-
-
-def get_all_posts_admin(
-    db: Session,
-    page: int = 1,
-    per_page: int = 20,
-):
-    """
-    Admin panel — returns all posts including drafts.
-    status=None means no status filter.
-    """
-    from app.shared.utils import paginate
-    pagination = paginate(page, per_page)
-
-    posts = repository.get_all_posts(
-        db,
-        status=None,
-        limit=pagination["limit"],
-        offset=pagination["offset"],
-    )
-    total = repository.get_total_posts(db, status=None)
+async def get_all_posts_admin(conn: asyncpg.Connection, page: int = 1, per_page: int = 20) -> Tuple[List[Dict[str, Any]], int]:
+    offset = (page - 1) * per_page
+    posts = await repository.get_all_posts(conn, status=None, limit=per_page, offset=offset)
+    total = await repository.get_total_posts(conn, status=None)
+    for post in posts:
+        post["tags"] = await repository.get_tags_for_post(conn, post["id"])
     return posts, total
 
-
-def create_post(db: Session, payload: BlogPostCreate):
-    """
-    Admin creates a new blog post.
-    - Auto-generates slug from title if not provided
-    - Sets published_at when status is "published"
-    - Checks slug is not already taken
-    """
-    # generate slug from title if not provided
+async def create_post(conn: asyncpg.Connection, payload: BlogPostCreate) -> Dict[str, Any]:
     slug = payload.slug or slugify(payload.title)
-
-    # check slug uniqueness
-    if repository.slug_exists(db, slug):
-        raise ConflictException(f"Slug '{slug}' already exists")
+    if await repository.slug_exists(conn, slug):
+        raise ConflictException(f"System duplicate conflict. Slug '{slug}' is occupied.")
 
     data = payload.model_dump()
+    tags_list = data.pop("tags", [])
     data["slug"] = slug
-
-    # set published_at timestamp when publishing
-    if payload.status == "published":
-        data["published_at"] = datetime.now(timezone.utc)
-
-    # calculate read time if not provided
+    data["published_at"] = datetime.now(timezone.utc) if payload.status == "published" else None
+    
     if payload.read_time_mins == 0 and payload.content:
-        data["read_time_mins"] = _estimate_read_time(payload.content)
+        data["read_time_mins"] = max(1, round(len(payload.content.split()) / 200))
 
-    return repository.create_post(db, data)
+    # Execute inside a transaction block to preserve data integrity bounds
+    async with conn.transaction():
+        post_id = await repository.create_post(conn, data)
+        prepared_tags = [{"name": t.strip(), "slug": slugify(t)} for t in tags_list]
+        await repository.create_tags(conn, post_id, prepared_tags)
 
+    created_post = await repository.get_post_by_id(conn, post_id)
+    created_post["tags"] = await repository.get_tags_for_post(conn, post_id)
+    return created_post
 
-def update_post(db: Session, post_id: UUID, payload: BlogPostUpdate):
-    """
-    Admin updates a post.
-    - If status changes to "published" and published_at is not set, set it now
-    """
-    post = repository.get_post_by_id(db, post_id)
-    if not post:
-        raise NotFoundException("Blog post")
+async def update_post(conn: asyncpg.Connection, post_id: UUID, payload: BlogPostUpdate) -> Dict[str, Any]:
+    current_post = await repository.get_post_by_id(conn, post_id)
+    if not current_post:
+        raise NotFoundException("Target post record not detected.")
 
     data = payload.model_dump(exclude_unset=True)
+    tags_list = data.pop("tags", None)
 
-    # auto-set published_at when first publishing
-    if data.get("status") == "published" and not post.published_at:
+    if data.get("status") == "published" and not current_post["published_at"]:
         data["published_at"] = datetime.now(timezone.utc)
 
-    # recalculate read time if content changed
     if "content" in data and data["content"]:
-        data["read_time_mins"] = _estimate_read_time(data["content"])
+        data["read_time_mins"] = max(1, round(len(data["content"].split()) / 200))
 
-    return repository.update_post(db, post, data)
+    async with conn.transaction():
+        if data:
+            await repository.update_post(conn, post_id, data)
+        if tags_list is not None:
+            await repository.delete_tags_for_post(conn, post_id)
+            prepared_tags = [{"name": t.strip(), "slug": slugify(t)} for t in tags_list]
+            await repository.create_tags(conn, post_id, prepared_tags)
 
+    updated_post = await repository.get_post_by_id(conn, post_id)
+    updated_post["tags"] = await repository.get_tags_for_post(conn, post_id)
+    return updated_post
 
-def delete_post(db: Session, post_id: UUID):
-    """Admin deletes a post."""
-    post = repository.get_post_by_id(db, post_id)
-    if not post:
-        raise NotFoundException("Blog post")
-    repository.delete_post(db, post)
-
-
-# ── Helpers ───────────────────────────────────────────────────────────────────
-
-def _estimate_read_time(content: str) -> int:
-    """
-    Estimate reading time based on word count.
-    Average reading speed is ~200 words per minute.
-    Minimum 1 minute.
-    """
-    word_count = len(content.split())
-    minutes = max(1, round(word_count / 200))
-    return minutes
+async def delete_post(conn: asyncpg.Connection, post_id: UUID):
+    current_post = await repository.get_post_by_id(conn, post_id)
+    if not current_post:
+        raise NotFoundException("Post record target void.")
+    await repository.delete_post(conn, post_id)

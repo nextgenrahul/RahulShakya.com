@@ -17,11 +17,13 @@ export default function ContactForm() {
   ];
   const executeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    console.log(activeScope)
+
     setSubmitted(true); 
   };
 
   return (
-    <section className="px-6 sm:px-12 max-w-[1140px] mx-auto pb-24">
+    <section className="px-6 sm:px-12 max-w-285 mx-auto pb-24">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}

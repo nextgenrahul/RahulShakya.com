@@ -58,14 +58,14 @@ export default function ContactHero() {
                 Start Project Brief
                 <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
               </a>
-              <a
+              {/* <a
                 href="https://cal.com/rahulshakya"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#f5f5f7] hover:bg-[#e8e8ed] text-[#1d1d1f] text-[14px] font-medium rounded-xl tracking-tight transition-all cursor-pointer"
               >
                 Book Discovery Call
-              </a>
+              </a> */}
             </div>
 
             <div className="grid grid-cols-2 gap-y-2.5 gap-x-4 pt-6 border-t border-[#f5f5f7] text-[12px] text-[#86868b] font-medium">

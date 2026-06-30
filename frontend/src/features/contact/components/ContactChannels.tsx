@@ -4,7 +4,7 @@ import { Mail, Shield, Share2 } from "lucide-react";
 
 export default function ContactChannels() {
     const networks = [
-        { label: "DIRECT EMAIL PROTOCOL", channel: "rahul@rahulshakya.com", sub: "For secure encryption communications.", icon: <Mail className="w-4 h-4 text-[#0071e3]" />, href: "mailto:rahul@rahulshakya.com" },
+        { label: "DIRECT EMAIL PROTOCOL", channel: "techfuture98127@gmail.com", sub: "For secure encryption communications.", icon: <Mail className="w-4 h-4 text-[#0071e3]" />, href: "mailto:rahul@rahulshakya.com" },
         { 
         label: "SOCIAL HUB DISTRIBUTION", 
         channel: "@rahulshakya.co", 

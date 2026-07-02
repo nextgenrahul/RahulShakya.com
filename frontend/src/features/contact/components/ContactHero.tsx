@@ -88,7 +88,7 @@ export default function ContactHero() {
             <div className="absolute top-0 right-0 w-[150px] h-[150px] bg-[radial-gradient(circle_at_top_right,rgba(0,113,227,0.03),transparent_70%)] pointer-events-none" />
             
             <div className="text-[10px] font-mono text-[#86868b] tracking-wider pb-2 border-b border-[#d2d2d7]/30 uppercase">
-              STUDIO_SYSTEM_PIPELINE
+              STUDIO_SYSTEM_PIPELINE 
             </div>
 
             <div className="space-y-3.5">

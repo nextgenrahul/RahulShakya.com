@@ -17,7 +17,7 @@ export default function ContactForm() {
   ];
   const executeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(activeScope)
+    console.log(activeScope) 
 
     setSubmitted(true); 
   };

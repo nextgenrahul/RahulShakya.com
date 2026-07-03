@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Clock, ArrowLeft, Terminal, Cpu, Database, CheckCircle2 } from "lucide-react";
+// import { motion } from "framer-motion";
+import { Clock, ArrowLeft, Terminal, Cpu, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 
 export default function ArticleContent() {
@@ -21,7 +21,6 @@ export default function ArticleContent() {
         </Link>
       </div>
 
-      {/* Article Meta Header */}
       <div className="space-y-4 border-b border-[#d2d2d7]/50 pb-8">
         <div className="flex items-center gap-4 text-xs font-mono text-[#86868b] uppercase">
           <span>VOLUME 01 // CHAPTER 04</span>

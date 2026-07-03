@@ -8,7 +8,7 @@ export default function ArticleContent() {
   const appleEase = [0.25, 1, 0.5, 1] as const;
 
   return (
-    <article className="pt-40 px-6 max-w-[740px] mx-auto space-y-12">
+    <article className="pt-40 px-6 max-w-185 mx-auto space-y-12">
       
       {/* Back Navigation Thread */}
       <div className="pb-4">

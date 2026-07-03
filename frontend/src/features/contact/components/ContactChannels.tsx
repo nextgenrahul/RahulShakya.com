@@ -13,7 +13,7 @@ export default function ContactChannels() {
         icon: <Share2 className="w-4 h-4 text-[#0071e3]" />, 
         href: "https://instagram.com/rahulshakya.co" 
         }    ];
-
+  
     return (
         <section className="bg-white py-24 px-6 sm:px-12 border-t border-[#d2d2d7]/50 max-w-[1140px] mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">

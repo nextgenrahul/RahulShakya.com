@@ -36,8 +36,6 @@ export default function ArticleContent() {
         </div>
       </div>
 
-      {/* ARTICLE BODY TEXT CONTENT */}
-      {/* Reason: Premium book-style leading settings make reading smooth and effortless for deep technical logs */}
       <div className="text-[17px] leading-[1.65] text-[#333336] font-normal space-y-8 tracking-normal">
         
         <p>
@@ -52,7 +50,6 @@ export default function ArticleContent() {
           To maintain a sub-200ms transaction cycle, the platform isolates textual database rows into mathematical coordinate blocks called vectors. By deploying an index system inside a PostgreSQL instance matching configurations with <code className="bg-[#f5f5f7] px-1.5 py-0.5 rounded font-mono text-xs text-[#0071e3]">pgvector</code> tokens, search logic bypasses slow sequential scans.
         </p>
 
-        {/* Dynamic Architectural Accent Board Block */}
         <div className="bg-[#f5f5f7] border border-[#d2d2d7]/50 rounded-[24px] p-6 space-y-4 my-8">
           <div className="flex items-center gap-2 text-xs font-mono font-bold text-[#86868b]">
             <Cpu className="w-4 h-4 text-[#0071e3]" /> CORE_PIPELINE_FLOW
@@ -70,7 +67,6 @@ export default function ArticleContent() {
           Implementation Parameters Code Structure
         </h2>
 
-        {/* Hardened Terminal Code Showcase Block */}
         <div className="bg-black rounded-2xl p-6 border border-white/10 font-mono text-xs text-zinc-400 space-y-3 shadow-inner my-6">
           <div className="flex items-center gap-1.5 pb-2 border-b border-zinc-800/60 text-zinc-500 text-[10px]">
             <Terminal className="w-3.5 h-3.5 text-[#0071e3]" />

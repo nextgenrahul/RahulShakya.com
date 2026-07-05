@@ -14,14 +14,14 @@ export default function ContactForm() {
     "Data Intelligence & AI Engineering",
     "Cinematic Media & Growth Motion",
     "Database Architecture Optimization"
-  ];
+  ]; 
   const executeSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log(activeScope) 
-
+ 
     setSubmitted(true); 
   };
-
+ 
   return (
     <section className="px-6 sm:px-12 max-w-285 mx-auto pb-24">
       <motion.div

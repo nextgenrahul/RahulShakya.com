@@ -20,7 +20,6 @@ export default function PortfolioHero() {
     <section className="pt-44 pb-32 px-6 sm:px-12 max-w-[1140px] mx-auto border-b border-[#d2d2d7]/40">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         
-        {/* LEFT TEXT MONOLITH (7 Columns) */}
         <div className="lg:col-span-7 space-y-8">
           <motion.div
             initial={{ opacity: 0 }}
@@ -39,7 +38,6 @@ export default function PortfolioHero() {
             Full-stack core execution. Hardened for production scale.
           </motion.h1>
 
-          {/* Core Action Suite & Resume Access */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -64,7 +62,6 @@ export default function PortfolioHero() {
             </a>
           </motion.div>
 
-          {/* Quick Metrics Sub-Strip */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

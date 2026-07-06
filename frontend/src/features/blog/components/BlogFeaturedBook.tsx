@@ -35,7 +35,6 @@ export default function BlogFeaturedBook({ post }: { post: BlogPost }) {
           className="bg-[#f5f5f7] border border-[#d2d2d7]/50 rounded-[40px] overflow-hidden grid grid-cols-1 lg:grid-cols-12 gap-0 items-stretch min-h-[540px] hover:shadow-xs transition-all duration-500"
         >
           
-          {/* LEFT SIDE: EDITORIAL BOOK TEXT GRID (7 Columns) */}
           <div className="lg:col-span-7 p-8 md:p-14 flex flex-col justify-between items-start bg-white border-r border-[#d2d2d7]/30">
             <div className="space-y-6 w-full">
               <div className="flex items-center justify-between text-xs font-mono text-[#86868b] uppercase tracking-wider">
@@ -55,7 +54,6 @@ export default function BlogFeaturedBook({ post }: { post: BlogPost }) {
               </div>
             </div>
 
-            {/* Read Analytics Footer */}
             <div className="mt-12 pt-6 border-t border-[#f5f5f7] flex items-center justify-between w-full text-xs font-mono text-[#86868b]">
               <div className="flex items-center gap-4">
                 <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {post.read_time_mins} Min Read</span>

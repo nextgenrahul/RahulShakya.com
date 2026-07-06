@@ -28,14 +28,12 @@ export default function BlogGridStream({ posts }: { posts: BlogPost[] }) {
     <section className="bg-[#f5f5f7] py-32 px-6 sm:px-12 border-t border-[#d2d2d7]/50">
       <div className="max-w-[1140px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12">
         
-        {/* Left Floating Sticky Category Header */}
         <div className="lg:col-span-4 h-fit lg:sticky lg:top-36">
           <h2 className="text-[11px] font-bold tracking-[0.15em] text-[#86868b] uppercase font-mono">
             ARCHIVED_CHAPTERS
           </h2>
         </div>
 
-        {/* Right Flowing Asymmetric Post Column */}
         <div className="lg:col-span-8 space-y-16">
           {posts.map((post, idx) => (
             <motion.div
@@ -47,7 +45,6 @@ export default function BlogGridStream({ posts }: { posts: BlogPost[] }) {
             >
               <Link href={`/blog/${post.slug}`} className="group grid grid-cols-1 sm:grid-cols-12 gap-6 sm:gap-8 items-center pb-12 border-b border-[#d2d2d7]/60 block">
                 
-                {/* Visual Media Canvas (4 Columns) */}
                 <div className="sm:col-span-4 aspect-[16/10] bg-white rounded-2xl border border-[#d2d2d7]/40 relative overflow-hidden bg-gradient-to-br from-[#e8e8ed] to-white">
                   <Image
                     src={post.cover_image_url || "/images/blog-fallback.jpg"}
@@ -61,7 +58,6 @@ export default function BlogGridStream({ posts }: { posts: BlogPost[] }) {
                   />
                 </div>
 
-                {/* Text Context Fields (8 Columns) */}
                 <div className="sm:col-span-8 space-y-3">
                   <div className="flex items-center justify-between text-xs font-mono font-bold text-[#808083]">
                     <span>{post.volume_label || `CHAPTER 0${idx + 1}`}</span>

@@ -3,7 +3,7 @@ import BlogFeaturedBook from "@/features/blog/components/BlogFeaturedBook";
 import BlogGridStream from "@/features/blog/components/BlogGridStream";
 
 export const metadata = {
-  title: "The Technical Ledger // Rahul Shakya Studio",
+  title: "The Technical Ledger",
   description: "Deep insights into full-stack execution, autonomous AI agent architecture, and high-uptime production engineering.",
 };
 

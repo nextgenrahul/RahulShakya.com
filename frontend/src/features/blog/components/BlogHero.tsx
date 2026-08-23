@@ -15,7 +15,7 @@ export default function BlogHero() {
             animate={{ opacity: 1 }}
             className="font-mono text-[11px] font-bold uppercase tracking-[0.15em] text-[#86868b] flex items-center gap-2"
           >
-            <BookOpen className="w-3.5 h-3.5 text-[#0071e3]" /> CORE_PUBLICATION // EDITION_2026
+            <BookOpen className="w-3.5 h-3.5 text-[#0071e3]" /> CORE_PUBLICATION
           </motion.div>
         </div>
         <div className="lg:col-span-8 space-y-6">
